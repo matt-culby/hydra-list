@@ -1,0 +1,42 @@
+{
+  "items": [
+    {
+      "id": "hiking-1",
+      "name": "Pacific Crest Trail",
+      "description": "A long-distance hiking trail that runs from the Mexican border through California, Oregon, and Washington to the Canadian border. Offers diverse landscapes from desert to alpine mountains.",
+      "imageUrl": "https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGFjaWZpYyUyMGNyZXN0JTIwdHJhaWx8ZW58MHx8MHx8&w=1000&q=80",
+      "externalLink": "https://www.pcta.org/",
+      "category": "hiking",
+      "rating": 5,
+      "notes": "Did a section hike in Oregon. Absolutely stunning views and well-maintained trails. Challenging but rewarding.",
+      "dateExperienced": "2024-07-15T00:00:00.000Z",
+      "cost": 500,
+      "createdAt": "2024-05-01T00:00:00.000Z",
+      "updatedAt": "2024-07-20T00:00:00.000Z"
+    },
+    {
+      "id": "hiking-2",
+      "name": "Appalachian Trail",
+      "description": "One of the longest hiking-only footpaths in the world, extending from Georgia to Maine. Passes through 14 states and numerous parks and forests.",
+      "imageUrl": "https://images.unsplash.com/photo-1501703979959-797917eb21c8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXBwYWxhY2hpYW4lMjB0cmFpbHxlbnwwfHwwfHw%3D&w=1000&q=80",
+      "externalLink": "https://appalachiantrail.org/",
+      "category": "hiking",
+      "rating": 4,
+      "notes": "Hiked a portion in the Smoky Mountains. Beautiful forests and wildlife. Trail was a bit crowded in some sections.",
+      "dateExperienced": "2024-09-10T00:00:00.000Z",
+      "cost": 300,
+      "createdAt": "2024-06-15T00:00:00.000Z",
+      "updatedAt": "2024-09-15T00:00:00.000Z"
+    },
+    {
+      "id": "hiking-3",
+      "name": "Zion Narrows",
+      "description": "A gorge hike in Zion National Park, Utah, where the walls are a thousand feet tall and the river is sometimes just twenty to thirty feet wide.",
+      "imageUrl": "https://images.unsplash.com/photo-1635537652405-1088a05d4a01?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8emlvbiUyMG5hcnJvd3N8ZW58MHx8MHx8&w=1000&q=80",
+      "externalLink": "https://www.nps.gov/zion/planyourvisit/thenarrows.htm",
+      "category": "hiking",
+      "createdAt": "2025-03-01T00:00:00.000Z",
+      "updatedAt": "2025-03-01T00:00:00.000Z"
+    }
+  ]
+}
