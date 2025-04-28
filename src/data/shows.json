@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "id": "shows-1",
+      "name": "Breaking Bad",
+      "description": "A high school chemistry teacher diagnosed with inoperable lung cancer turns to manufacturing and selling methamphetamine in order to secure his family's future.",
+      "imageUrl": "https://images.unsplash.com/photo-1594908900066-3f47337549d8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dHYlMjBzaG93fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      "externalLink": "https://www.imdb.com/title/tt0903747/",
+      "category": "shows",
+      "cost": 15,
+      "createdAt": "2023-01-05T12:00:00Z",
+      "updatedAt": "2023-01-05T12:00:00Z"
+    },
+    {
+      "id": "shows-2",
+      "name": "Stranger Things",
+      "description": "When a young boy disappears, his mother, a police chief, and his friends must confront terrifying supernatural forces in order to get him back.",
+      "imageUrl": "https://images.unsplash.com/photo-1627873649417-c67f701f1949?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHN0cmFuZ2VyJTIwdGhpbmdzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+      "externalLink": "https://www.imdb.com/title/tt4574334/",
+      "category": "shows",
+      "cost": 15,
+      "createdAt": "2023-02-10T12:00:00Z",
+      "updatedAt": "2023-02-10T12:00:00Z"
+    },
+    {
+      "id": "shows-3",
+      "name": "The Office",
+      "description": "A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium.",
+      "imageUrl": "https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8b2ZmaWNlJTIwdHZ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
+      "externalLink": "https://www.imdb.com/title/tt0386676/",
+      "category": "shows",
+      "cost": 15,
+      "createdAt": "2023-03-15T12:00:00Z",
+      "updatedAt": "2023-03-15T12:00:00Z"
+    }
+  ]
+}
