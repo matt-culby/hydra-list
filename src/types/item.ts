@@ -18,7 +18,6 @@ export type Category = 'restaurants' | 'bars' | 'cafes' | 'movies' | 'shows' | '
 export interface CategoryInfo {
   id: Category;
   name: string;
-  description: string;
   icon: string;
 }
 
@@ -26,37 +25,31 @@ export const categories: CategoryInfo[] = [
   {
     id: 'restaurants',
     name: 'Restaurants',
-    description: 'Places to eat',
     icon: '🍽️'
   },
   {
     id: 'bars',
     name: 'Bars',
-    description: 'Places to drink',
     icon: '🍸'
   },
   {
     id: 'cafes',
     name: 'Cafes & Coffee',
-    description: 'Coffee shops and cafes',
     icon: '☕'
   },
   {
     id: 'movies',
     name: 'Movies',
-    description: 'Films to watch',
     icon: '🎬'
   },
   {
     id: 'shows',
     name: 'Shows',
-    description: 'TV shows and series',
     icon: '📺'
   },
   {
     id: 'date-ideas',
     name: 'Date Ideas',
-    description: 'Fun activities for couples',
     icon: '❤️'
   }
 ];

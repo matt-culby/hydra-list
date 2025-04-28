@@ -69,10 +69,11 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
   };
 
   return (
-    <div className="card mb-6">
-      <div className="p-4">
+    <div className="relative mb-6 w-full max-w-4xl mx-auto">
+      <div className="card p-4 shadow-sm">
         <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <div className="relative w-full sm:w-auto flex-grow">
+          {/* Search Box - Takes up most of the space */}
+          <div className="relative w-full flex-grow">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg className="w-4 h-4 text-color-text-lighter" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
@@ -87,52 +88,62 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
             />
           </div>
           
-          <button
-            type="button"
-            className={`text-white font-medium rounded-lg text-sm px-4 py-2.5 flex items-center shadow-sm transition-colors ${
-              isExpanded
-                ? 'bg-secondary hover:bg-secondary-dark focus:ring-4 focus:ring-secondary/30'
-                : 'bg-primary hover:bg-primary-dark focus:ring-4 focus:ring-primary/30'
-            }`}
-            onClick={() => setIsExpanded(!isExpanded)}
-          >
-            <svg
-              className="w-4 h-4 mr-2"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
+          {/* Buttons */}
+          <div className="flex space-x-2 shrink-0">
+            <button
+              type="button"
+              className={`text-white font-medium rounded-lg text-sm px-4 py-2.5 flex items-center shadow-sm transition-colors ${
+                isExpanded
+                  ? 'bg-secondary hover:bg-secondary-dark focus:ring-4 focus:ring-secondary/30'
+                  : 'bg-primary hover:bg-primary-dark focus:ring-4 focus:ring-primary/30'
+              }`}
+              onClick={() => setIsExpanded(!isExpanded)}
             >
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 6h18M6 12h12m-9 6h6"/>
-            </svg>
-            <span>Filters</span>
-            <svg
-              className={`w-4 h-4 ml-2 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
+              <svg
+                className="w-4 h-4 mr-2"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 6h18M6 12h12m-9 6h6"/>
+              </svg>
+              <span>Filters</span>
+              <svg
+                className={`w-4 h-4 ml-2 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7"/>
+              </svg>
+            </button>
+            
+            <button
+              type="button"
+              className="text-color-text bg-color-surface border border-color-border hover:bg-gray-50 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-4 py-2.5 transition-colors"
+              onClick={clearFilters}
             >
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 9-7 7-7-7"/>
-            </svg>
-          </button>
-          
-          <button
-            type="button"
-            className="text-color-text bg-color-surface border border-color-border hover:bg-gray-50 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-4 py-2.5 transition-colors"
-            onClick={clearFilters}
-          >
-            Clear
-          </button>
+              Clear
+            </button>
+          </div>
         </div>
       </div>
       
-      {isExpanded && (
-        <div className="p-4 border-t border-color-border bg-gray-50/50">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Dropdown filter panel - Spans along the bottom */}
+      <div
+        className={`absolute left-0 right-0 mt-1 z-10 card shadow-lg border border-color-border bg-color-surface overflow-hidden transition-all duration-300 w-full ${
+          isExpanded
+            ? 'opacity-100 max-h-[500px]'
+            : 'opacity-0 max-h-0 pointer-events-none'
+        }`}
+      >
+        <div className="p-5">
+          <div className="flex flex-col md:flex-row gap-8">
             {/* Rating Filter */}
-            <div>
-              <h3 className="text-sm font-medium text-color-text mb-2 flex items-center">
+            <div className="md:w-1/3">
+              <h3 className="text-base font-medium text-color-text mb-3 flex items-center">
                 <svg className="w-4 h-4 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                 </svg>
@@ -140,7 +151,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
               </h3>
               <div className="flex items-center gap-4">
                 <select
-                  className="block p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary"
+                  className="block p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary bg-white hover:border-primary hover:ring-2 hover:ring-primary/20 cursor-pointer transition-all"
                   value={minRating}
                   onChange={(e) => handleRatingChange(Number(e.target.value), maxRating)}
                 >
@@ -152,7 +163,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                 </select>
                 <span className="text-color-text-light">to</span>
                 <select
-                  className="block p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary"
+                  className="block p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary bg-white hover:border-primary hover:ring-2 hover:ring-primary/20 cursor-pointer transition-all"
                   value={maxRating}
                   onChange={(e) => handleRatingChange(minRating, Number(e.target.value))}
                 >
@@ -166,8 +177,8 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
             </div>
             
             {/* Cost Filter */}
-            <div>
-              <h3 className="text-sm font-medium text-color-text mb-2 flex items-center">
+            <div className="md:w-1/3">
+              <h3 className="text-base font-medium text-color-text mb-3 flex items-center">
                 <svg className="w-4 h-4 mr-1 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -178,7 +189,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-color-text-lighter">$</span>
                   <input
                     type="number"
-                    className="block w-full pl-7 p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary"
+                    className="block w-full pl-7 p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary bg-white hover:border-primary hover:ring-2 hover:ring-primary/20 cursor-pointer transition-all"
                     placeholder="Min"
                     min="0"
                     value={minCost}
@@ -190,7 +201,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
                   <span className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-color-text-lighter">$</span>
                   <input
                     type="number"
-                    className="block w-full pl-7 p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary"
+                    className="block w-full pl-7 p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary bg-white hover:border-primary hover:ring-2 hover:ring-primary/20 cursor-pointer transition-all"
                     placeholder="Max"
                     min="0"
                     value={maxCost}
@@ -201,32 +212,37 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
             </div>
             
             {/* Date Filter */}
-            <div>
-              <h3 className="text-sm font-medium text-color-text mb-2 flex items-center">
+            <div className="md:w-1/3">
+              <h3 className="text-base font-medium text-color-text mb-3 flex items-center">
                 <svg className="w-4 h-4 mr-1 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 Date Experienced
               </h3>
-              <div className="flex items-center gap-4">
-                <input
-                  type="date"
-                  className="block w-full p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary"
-                  value={startDate}
-                  onChange={(e) => handleDateChange(e.target.value, endDate)}
-                />
-                <span className="text-color-text-light">to</span>
-                <input
-                  type="date"
-                  className="block w-full p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary"
-                  value={endDate}
-                  onChange={(e) => handleDateChange(startDate, e.target.value)}
-                />
+              <div className="flex flex-col space-y-2">
+                <div className="flex items-center">
+                  <span className="text-color-text-light w-10">From:</span>
+                  <input
+                    type="date"
+                    className="block w-full p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary bg-white hover:border-primary hover:ring-2 hover:ring-primary/20 cursor-pointer transition-all"
+                    value={startDate}
+                    onChange={(e) => handleDateChange(e.target.value, endDate)}
+                  />
+                </div>
+                <div className="flex items-center">
+                  <span className="text-color-text-light w-10">To:</span>
+                  <input
+                    type="date"
+                    className="block w-full p-2.5 text-sm rounded-lg focus:ring-primary/30 focus:border-primary bg-white hover:border-primary hover:ring-2 hover:ring-primary/20 cursor-pointer transition-all"
+                    value={endDate}
+                    onChange={(e) => handleDateChange(startDate, e.target.value)}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -29,10 +29,10 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <Image
                 src="/hydra-list-2.png"
                 alt="Hydra List"
-                width={120}
-                height={35}
+                width={150}
+                height={120}
                 priority
-                className="h-8 w-auto object-contain"
+                className="h-12 w-auto object-contain"
               />
             </Link>
             
@@ -103,7 +103,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
               <span className="mr-3 text-2xl">{currentCategory.icon}</span>
               {currentCategory.name}
             </h1>
-            <p className="text-color-text-light mt-2">{currentCategory.description}</p>
           </div>
         </div>
       )}
@@ -112,44 +111,6 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <main className="flex-grow container mx-auto px-4 py-8">
         {children}
       </main>
-      
-      {/* Footer */}
-      <footer className="bg-gradient-to-r from-primary-dark to-secondary-dark text-white py-8">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="mb-6 md:mb-0">
-              <div className="mb-2">
-                <Image
-                  src="/hydra-list-2.png"
-                  alt="Hydra List"
-                  width={120}
-                  height={35}
-                  priority
-                  className="h-8 w-auto object-contain"
-                />
-              </div>
-              <p className="text-white/70">Share experiences with your partner</p>
-            </div>
-            
-            <div className="flex flex-wrap justify-center gap-4">
-              {categories.map((category) => (
-                <Link
-                  key={category.id}
-                  href={`/${category.id}`}
-                  className="hover:bg-white/10 px-3 py-2 rounded-md transition-colors"
-                >
-                  <span className="mr-2">{category.icon}</span>
-                  <span className="hidden sm:inline">{category.name}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-          
-          <div className="mt-8 text-center text-white/60 text-sm">
-            <p>&copy; {new Date().getFullYear()} Hydra List. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
