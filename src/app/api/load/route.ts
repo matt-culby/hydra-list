@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { Category } from '@/types/item';
+import { loadFromSheet, isSheetsConfigured } from '@/lib/sheets-db';
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,8 +20,23 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid category' }, { status: 400 });
     }
     
-    // Get the file path
-    const filePath = path.join(process.cwd(), 'src', 'data', `${category}.json`);
+    // Try to load from Google Sheets if configured
+    if (isSheetsConfigured()) {
+      try {
+        const sheetsData = await loadFromSheet(category);
+        if (sheetsData && sheetsData.items && sheetsData.items.length > 0) {
+          console.log(`Loaded ${sheetsData.items.length} items from Google Sheets for ${category}`);
+          return NextResponse.json(sheetsData);
+        }
+      } catch (sheetsError) {
+        console.error('Error loading from Google Sheets, falling back to local files:', sheetsError);
+      }
+    }
+    
+    // Fall back to local file system
+    console.log(`Loading data from local file for ${category}`);
+    const dataDir = process.env.DATA_DIR || path.join(process.cwd(), 'src', 'data');
+    const filePath = path.join(dataDir, `${category}.json`);
     
     // Check if the file exists
     if (!fs.existsSync(filePath)) {

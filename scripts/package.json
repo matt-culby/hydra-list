@@ -1,0 +1,11 @@
+{
+  "name": "hydra-list-scripts",
+  "version": "1.0.0",
+  "description": "Scripts for Hydra List data management",
+  "dependencies": {
+    "@google-cloud/local-auth": "^2.1.0",
+    "googleapis": "^105.0.0",
+    "adm-zip": "^0.5.10",
+    "axios": "^1.6.0"
+  }
+}
