@@ -36,6 +36,10 @@ yarn-error.log*
 # Google API credentials
 credentials.json
 
+# Data files
+/src/data/*.json
+!/src/data/example.json
+
 # vercel
 .vercel
 
