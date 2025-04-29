@@ -101,9 +101,9 @@ export default function ItemModal({
             className="object-cover rounded-t-lg"
             priority
             onError={(e) => {
-              // Use a placeholder image if the original image fails to load
+              // Use a local placeholder image if the original image fails to load
               const imgElement = e.currentTarget as HTMLImageElement;
-              imgElement.src = "https://via.placeholder.com/800x400?text=Image+Not+Available";
+              imgElement.src = "/placeholder.svg";
               imgElement.srcset = "";
             }}
           />

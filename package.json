@@ -6,12 +6,23 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "upload-to-sheets": "node upload-to-sheets.js",
+    "download-from-sheets": "node scripts/download-from-sheets.js",
+    "sync-sheets": "npm run upload-to-sheets && npm run download-from-sheets",
+    "fix-cafes": "node scripts/fix-cafes.js",
+    "docker:build": "npm run build && docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:down": "docker-compose down",
+    "docker": "npm run docker:build && npm run docker:up"
   },
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.3.1"
+    "next": "15.3.1",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
   },
   "devDependencies": {
     "typescript": "^5",

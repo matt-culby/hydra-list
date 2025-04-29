@@ -47,9 +47,9 @@ export default function ItemRow({ item, onRatingChange }: ItemRowProps) {
           sizes="(max-width: 640px) 100vw, 128px"
           className="object-cover"
           onError={(e) => {
-            // Use a placeholder image if the original image fails to load
+            // Use a local placeholder image if the original image fails to load
             const imgElement = e.currentTarget as HTMLImageElement;
-            imgElement.src = "https://via.placeholder.com/128x96?text=Image+Not+Available";
+            imgElement.src = "/placeholder.svg";
             imgElement.srcset = "";
           }}
         />

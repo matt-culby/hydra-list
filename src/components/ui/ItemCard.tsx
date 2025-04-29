@@ -42,9 +42,9 @@ export default function ItemCard({ item, onRatingChange }: ItemCardProps) {
           className="object-cover"
           priority={false}
           onError={(e) => {
-            // Use a placeholder image if the original image fails to load
+            // Use a local placeholder image if the original image fails to load
             const imgElement = e.currentTarget as HTMLImageElement;
-            imgElement.src = "https://via.placeholder.com/400x300?text=Image+Not+Available";
+            imgElement.src = "/placeholder.svg";
             imgElement.srcset = "";
           }}
         />
