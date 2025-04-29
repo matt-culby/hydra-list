@@ -53,17 +53,31 @@ async function downloadFromGoogleSheet() {
       // Convert the Google Sheets format to our app format
       const items = [];
       const cols = jsonData.table.cols.map(col => col.label);
+      console.log(`Column headers for ${category}:`, cols);
       
-      jsonData.table.rows.forEach(row => {
-        if (!row.c[0] || !row.c[0].v) return; // Skip empty rows
+      jsonData.table.rows.forEach((row, rowIndex) => {
+        if (!row.c[0] || !row.c[0].v) {
+          console.log(`Skipping empty row ${rowIndex} for ${category}`);
+          return; // Skip empty rows
+        }
         
         const item = {};
+        
+        // First pass: get all available values
         row.c.forEach((cell, i) => {
           if (cell && cols[i]) {
             item[cols[i]] = cell.v;
           }
         });
         
+        // Make sure we have at least an ID
+        if (!item.id) {
+          console.log(`Skipping row ${rowIndex} for ${category} - no ID`);
+          return;
+        }
+        
+        // Add the item to the list
+        console.log(`Adding item ${item.id} for ${category}`);
         items.push(item);
       });
       
