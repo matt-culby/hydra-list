@@ -25,7 +25,7 @@ async function uploadToGoogleSheet() {
   console.log(`Apps Script URL: ${APPS_SCRIPT_URL}`);
 
   // Get the data directory
-  const dataDir = path.join(__dirname, 'src', 'data');
+  const dataDir = path.join(process.cwd(), 'src', 'data');
 
   // Process each category
   for (const category of categories) {
@@ -34,6 +34,7 @@ async function uploadToGoogleSheet() {
       const filePath = path.join(dataDir, `${category}.json`);
       if (!fs.existsSync(filePath)) {
         console.log(`No data file found for ${category}. Skipping.`);
+        console.log(filePath);
         continue;
       }
 
