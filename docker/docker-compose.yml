@@ -2,6 +2,7 @@ version: '3'
 
 services:
   app:
+    container_name: hydra-list
     build:
       context: ..
       dockerfile: docker/Dockerfile
