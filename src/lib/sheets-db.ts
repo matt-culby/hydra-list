@@ -61,16 +61,38 @@ export async function saveToSheet(category: string, data: { items: Array<Record<
       return false;
     }
     
-    await axios.post(APPS_SCRIPT_URL, {
+    console.log('Saving to Google Sheets with:', {
+      url: APPS_SCRIPT_URL,
+      category,
+      itemCount: data.items.length,
+      sheetId: SHEET_ID
+    });
+    
+    const response = await axios.post(APPS_SCRIPT_URL, {
       category,
       data: data.items,
       sheetId: SHEET_ID
     });
     
     console.log(`Saved ${data.items.length} items to Google Sheet for category: ${category}`);
+    console.log('Google Sheets API response:', response.data);
     return true;
   } catch (error) {
     console.error(`Error saving data to sheet ${category}:`, error);
+    if (error && typeof error === 'object' && 'message' in error) {
+      console.error('Error details:', {
+        message: (error as Error).message
+      });
+      
+      // Check if it's an Axios error
+      if ('response' in error && error.response && typeof error.response === 'object') {
+        const response = error.response as { data?: unknown; status?: number };
+        console.error('Response details:', {
+          data: response.data,
+          status: response.status
+        });
+      }
+    }
     return false;
   }
 }
