@@ -10,9 +10,9 @@
     "upload": "node scripts/upload-to-sheets.js",
     "download": "node scripts/download-from-sheets.js",
     "sync-sheets": "npm run upload && npm run download",
-    "docker:build": "npm run build && cd docker && docker-compose build",
-    "docker:up": "cd docker && docker-compose up",
-    "docker:down": "cd docker && docker-compose down",
+    "docker:build": "npm run build && cd docker && docker-compose -f docker-compose.yml build",
+    "docker:up": "cd docker && docker-compose -f docker-compose.yml up",
+    "docker:down": "cd docker && docker-compose -f docker-compose.yml down",
     "docker": "npm run docker:build && npm run docker:up"
   },
   "dependencies": {

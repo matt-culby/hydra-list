@@ -5,6 +5,6 @@ call npm run build
 
 echo Building Docker image...
 cd docker
-docker-compose build
+docker-compose -f docker-compose.yml build
 
-echo Build complete. Run 'docker-compose up' to start the application.
+echo Build complete. Run 'docker-up.bat' to start the application.

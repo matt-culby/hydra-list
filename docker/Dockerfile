@@ -16,6 +16,9 @@ RUN mkdir -p /data
 COPY package.json package-lock.json ./
 RUN npm install --production
 
+# Copy application code
+COPY . .
+
 # Copy data files to setup directory
 RUN mkdir -p /setup-data
 COPY src/data/* /setup-data/
@@ -23,9 +26,9 @@ COPY src/data/* /setup-data/
 # Expose port
 EXPOSE 3000
 
-# Initialize data directory if empty (replacing the shell script entrypoint)
-RUN echo 'if not exist "C:\data\*" xcopy /E /I /Y C:\setup-data\* C:\data\' > /app/docker-entrypoint.cmd
-ENTRYPOINT ["cmd", "/C", "docker-entrypoint.cmd && npm start"]
+# Copy entrypoint script
+COPY docker/docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
 
-# Start the Next.js application
-CMD ["npm", "start"]
+# Set entrypoint
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
