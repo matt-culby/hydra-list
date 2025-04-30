@@ -41,17 +41,11 @@ export default function ItemRow({ item, onRatingChange }: ItemRowProps) {
     <div className={`flex flex-col sm:flex-row gap-4 p-4 border-b ${isCompleted ? 'border-l-4 border-l-success bg-success/5' : 'border-l-4 border-l-transparent'}`}>
       <div className="relative h-24 sm:h-20 sm:w-32 flex-shrink-0 bg-gray-200 rounded-md overflow-hidden">
         <Image
-          src={imageUrl}
+          src={imageUrl || "https://placecats.com/neo/300/200"}
           alt={name}
           fill
           sizes="(max-width: 640px) 100vw, 128px"
           className="object-cover"
-          onError={(e) => {
-            // Use a local placeholder image if the original image fails to load
-            const imgElement = e.currentTarget as HTMLImageElement;
-            imgElement.src = "/placeholder.svg";
-            imgElement.srcset = "";
-          }}
         />
         {rating !== undefined && (
           <div className="absolute top-1 right-1 bg-black/50 backdrop-blur-sm rounded-full px-1.5 py-0.5 flex items-center">

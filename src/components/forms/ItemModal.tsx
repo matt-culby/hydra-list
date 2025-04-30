@@ -94,18 +94,12 @@ export default function ItemModal({
       >
         <div className="relative h-64 sm:h-80 bg-gray-800">
           <Image
-            src={item.imageUrl}
+            src={item.imageUrl || "https://placecats.com/neo/800/500"}
             alt={item.name}
             fill
             sizes="(max-width: 768px) 100vw, 768px"
             className="object-cover rounded-t-lg"
             priority
-            onError={(e) => {
-              // Use a local placeholder image if the original image fails to load
-              const imgElement = e.currentTarget as HTMLImageElement;
-              imgElement.src = "/placeholder.svg";
-              imgElement.srcset = "";
-            }}
           />
           <button
             type="button"

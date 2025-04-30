@@ -35,18 +35,12 @@ export default function ItemCard({ item, onRatingChange }: ItemCardProps) {
     <div className={`card hover:shadow-lg transition-shadow ${isCompleted ? 'border-l-4 border-l-success' : ''}`}>
       <div className="relative h-48 w-full bg-gray-200">
         <Image
-          src={imageUrl}
+          src={imageUrl || "https://placecats.com/neo/400/300"}
           alt={name}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover"
           priority={false}
-          onError={(e) => {
-            // Use a local placeholder image if the original image fails to load
-            const imgElement = e.currentTarget as HTMLImageElement;
-            imgElement.src = "/placeholder.svg";
-            imgElement.srcset = "";
-          }}
         />
         {rating !== undefined && (
           <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-sm rounded-full px-2 py-1 flex items-center">

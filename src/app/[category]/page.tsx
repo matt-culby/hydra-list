@@ -8,7 +8,7 @@ import {
   getRandomItem,
   addItem,
   updateItem,
-  searchItems
+  updateCache
 } from '@/lib/data';
 import ItemCard from '@/components/ui/ItemCard';
 import ItemRow from '@/components/ui/ItemRow';
@@ -48,18 +48,29 @@ export default function CategoryPage() {
       setItems(categoryItems);
       setFilteredItems(categoryItems);
       
-      // Then, fetch the latest data from the server
+      // Then, fetch the latest data from the server and update the cache
       const fetchData = async () => {
         try {
-          const response = await fetch(`/api/load?category=${categoryId}`);
-          if (!response.ok) {
-            throw new Error(`Failed to load data: ${response.statusText}`);
-          }
+          // Update the cache with the latest data from the server
+          const success = await updateCache(categoryId as Category);
           
-          const data = await response.json();
-          if (data && data.items) {
-            setItems(data.items);
-            setFilteredItems(data.items);
+          if (success) {
+            // Get the updated items from the cache
+            const updatedItems = getItems(categoryId as Category);
+            setItems(updatedItems);
+            setFilteredItems(updatedItems);
+          } else {
+            // Fallback to direct API call if cache update fails
+            const response = await fetch(`/api/load?category=${categoryId}`);
+            if (!response.ok) {
+              throw new Error(`Failed to load data: ${response.statusText}`);
+            }
+            
+            const data = await response.json();
+            if (data && data.items) {
+              setItems(data.items);
+              setFilteredItems(data.items);
+            }
           }
         } catch (error) {
           console.error('Error loading data:', error);
@@ -79,14 +90,23 @@ export default function CategoryPage() {
   
   // Apply filters when items or filters change
   useEffect(() => {
-    console.log('CategoryPage - useEffect - Filtering items', { items });
-    
     if (!items.length) return;
-    
+
     let result = [...items];
-    
-    if (filters.search && categoryId) {
-      result = searchItems(categoryId as Category, filters.search);
+
+    // Only apply search filter if there's actual search text
+    if (filters.search !== undefined && filters.search.trim() !== '' && categoryId) {
+      const lowerQuery = filters.search.toLowerCase();
+      
+      result = result.filter(item => {
+        const nameMatch = item.name.toLowerCase().includes(lowerQuery);
+        const descMatch = item.description.toLowerCase().includes(lowerQuery);
+        const matches = nameMatch || descMatch;
+        
+        return matches;
+      });
+      
+      console.log(`Search results: ${result.length} items found`);
     }
     
     if (filters.rating) {
@@ -113,7 +133,6 @@ export default function CategoryPage() {
       });
     }
     
-    console.log('CategoryPage - useEffect - Filtered items', { result });
     setFilteredItems(result);
   }, [items, filters, categoryId]);
   

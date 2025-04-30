@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface FilterBarProps {
   onFilterChange: (filters: {
@@ -14,6 +14,7 @@ interface FilterBarProps {
 export default function FilterBar({ onFilterChange }: FilterBarProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [minRating, setMinRating] = useState(0);
   const [maxRating, setMaxRating] = useState(5);
   const [minCost, setMinCost] = useState(0);
@@ -21,10 +22,38 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
+  // Debounce search query
+  useEffect(() => {
+    // Set a timeout to update the debounced value after 300ms
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+    }, 300);
+
+    // Clear the timeout if the search query changes before the delay has expired
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  // Apply filters when debounced search query changes
+  useEffect(() => {
+    // If search is empty, reset search filter
+    if (debouncedSearchQuery.trim() === '') {
+      // Only clear the search filter, not all filters
+      const filtersWithoutSearch = {
+        ...(minRating > 0 || maxRating < 5 ? { rating: { min: minRating, max: maxRating } } : {}),
+        ...(minCost > 0 || maxCost < 1000 ? { cost: { min: minCost, max: maxCost } } : {}),
+        ...(startDate && endDate ? { date: { start: startDate, end: endDate } } : {})
+      };
+      onFilterChange(filtersWithoutSearch);
+    } else {
+      // Apply all filters including the debounced search
+      applyFilters({ search: debouncedSearchQuery });
+    }
+  }, [debouncedSearchQuery]);
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
-    applyFilters({ search: value });
+    // The actual filtering will be handled by the useEffect above
   };
 
   const handleRatingChange = (min: number, max: number) => {
@@ -47,18 +76,22 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
     }
   };
 
-  const applyFilters = (newFilters: Partial<Parameters<typeof onFilterChange>[0]>) => {
-    onFilterChange({
-      rating: { min: minRating, max: maxRating },
-      cost: { min: minCost, max: maxCost },
+  const applyFilters = useCallback((newFilters: Partial<Parameters<typeof onFilterChange>[0]>) => {
+    const filters = {
+      ...(minRating > 0 || maxRating < 5 ? { rating: { min: minRating, max: maxRating } } : {}),
+      ...(minCost > 0 || maxCost < 1000 ? { cost: { min: minCost, max: maxCost } } : {}),
       ...(startDate && endDate ? { date: { start: startDate, end: endDate } } : {}),
-      search: searchQuery,
+      ...(debouncedSearchQuery.trim() !== '' ? { search: debouncedSearchQuery } : {}),
       ...newFilters
-    });
-  };
+    };
+    
+    console.log('Applying filters:', filters);
+    onFilterChange(filters);
+  }, [minRating, maxRating, minCost, maxCost, startDate, endDate, debouncedSearchQuery, onFilterChange]);
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setSearchQuery('');
+    setDebouncedSearchQuery('');
     setMinRating(0);
     setMaxRating(5);
     setMinCost(0);
@@ -66,7 +99,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
     setStartDate('');
     setEndDate('');
     onFilterChange({});
-  };
+  }, [onFilterChange]);
 
   return (
     <div className="relative mb-6 w-full max-w-4xl mx-auto">
