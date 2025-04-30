@@ -36,6 +36,25 @@ const initializeCache = async () => {
   console.log('Data cache initialized');
 };
 
+/**
+ * Update the cache with data from the server for a specific category
+ */
+export const updateCache = async (category: Category): Promise<boolean> => {
+  try {
+    const response = await fetch(`/api/load?category=${category}`);
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.items) {
+        dataCache[category] = data;
+        return true;
+      }
+    }
+    return false;
+  } catch {
+    return false;
+  }
+};
+
 // Initialize the cache when the module is loaded
 if (typeof window !== 'undefined') {
   // Only run in the browser
@@ -72,7 +91,8 @@ const saveData = async (category: Category) => {
  * Get all items for a specific category
  */
 export const getItems = (category: Category): Item[] => {
-  return dataCache[category]?.items || [];
+  const items = dataCache[category]?.items || [];
+  return items;
 };
 
 /**
@@ -94,10 +114,23 @@ export const addItem = (category: Category, item: Omit<Item, 'id' | 'createdAt' 
     updatedAt: new Date().toISOString()
   };
   
+  // Add to cache
   dataCache[category].items.push(newItem);
   
   // Save the data to the server
-  saveData(category).catch(console.error);
+  saveData(category)
+    .then(success => {
+      if (success) {
+      } else {
+        // If server save fails, try to update cache from server
+        updateCache(category).catch(console.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error saving data:', error);
+      // Try to update cache from server on error
+      updateCache(category).catch(console.error);
+    });
   
   return newItem;
 };
@@ -122,11 +155,25 @@ export const updateItem = (category: Category, id: string, updates: Partial<Item
     updatedAt: new Date().toISOString()
   };
   
+  // Update in cache
   items[index] = updatedItem;
   
   // Save the data to the server
   console.log('data.ts - updateItem - Item updated', updatedItem);
-  saveData(category).catch(console.error);
+  saveData(category)
+    .then(success => {
+      if (success) {
+        console.log(`Data saved successfully for ${category}`);
+      } else {
+        // If server save fails, try to update cache from server
+        updateCache(category).catch(console.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error saving data:', error);
+      // Try to update cache from server on error
+      updateCache(category).catch(console.error);
+    });
   
   return updatedItem;
 };
@@ -142,10 +189,24 @@ export const deleteItem = (category: Category, id: string): boolean => {
     return false;
   }
   
+  // Remove from cache
   items.splice(index, 1);
   
   // Save the data to the server
-  saveData(category).catch(console.error);
+  saveData(category)
+    .then(success => {
+      if (success) {
+        console.log(`Data saved successfully for ${category}`);
+      } else {
+        // If server save fails, try to update cache from server
+        updateCache(category).catch(console.error);
+      }
+    })
+    .catch(error => {
+      console.error('Error saving data:', error);
+      // Try to update cache from server on error
+      updateCache(category).catch(console.error);
+    });
   
   return true;
 };
